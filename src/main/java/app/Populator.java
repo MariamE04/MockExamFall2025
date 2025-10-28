@@ -81,8 +81,6 @@ public class Populator {
         tripDAO.create(trip2);
         tripDAO.create(trip3);
 
-        emf.close();
-
         System.out.println("Database populated with sample data!");
     }
 

@@ -1,0 +1,108 @@
+### Trip planner Tests
+GET http://localhost:7072/api/TripPlanning
+
+###
+
+### create trip
+POST http://localhost:7072/api/TripPlanning/trips
+Content-Type: application/json
+
+{
+  "name": "Sunny Beach Trip",
+  "startTrip": "2025-11-10T09:00:00",
+  "endTrip": "2025-11-15T18:00:00",
+  "latitude": 56.12345,
+  "longitude": 12.54321,
+  "price": 499.99,
+  "category": "BEACH",
+  "guideId": 1
+}
+
+###
+
+### Get all trips
+GET http://localhost:7072/api/TripPlanning/trips
+
+###
+
+### Get trip by id
+GET http://localhost:7072/api/TripPlanning/trips/1
+
+###
+
+### delete trip by id
+DELETE http://localhost:7072/api/TripPlanning/trips/2
+
+###
+
+### delete medicine by id
+GET http://localhost:7072/api/TripPlanning/trips/2
+###
+
+### Update trip by ID
+PUT http://localhost:7072/api/TripPlanning/trips/1
+Content-Type: application/json
+
+{
+  "name": "test",
+  "startTrip": "2025-11-10T09:00:00",
+  "endTrip": "2025-11-15T18:00:00",
+  "latitude": 56.12345,
+  "longitude": 12.54321,
+  "price": 499.99,
+  "category": "BEACH",
+  "guideId": 1
+}
+
+###
+
+#### guid test ####
+
+### create a guide
+POST http://localhost:7072/api/TripPlanning/guides
+Content-Type: application/json
+
+{
+  "name": "Mariam Elmir",
+  "email": "mariam@example.com",
+  "phone": "0402771",
+  "yearsOfExperience": 5
+}
+
+###
+
+### Get all guides
+GET http://localhost:7072/api/TripPlanning/guides
+
+###
+
+### get by id
+GET http://localhost:7072/api/TripPlanning/guides/1
+
+###
+
+### delete guide by id
+DELETE http://localhost:7072/api/TripPlanning/guides/2
+
+###
+
+###Get guide by id (after deletion)
+GET http://localhost:7072/api/TripPlanning/guides/2
+
+###
+
+###Update guide by ID
+PUT http://localhost:7072/api/TripPlanning/guides/1
+Content-Type: application/json
+
+{
+  "name": "Anna K. Jensen",
+  "email": "anna.kj@example.com",
+  "phone": "12345678",
+  "yearsOfExperience": 6
+}
+
+###
+
+###Get trips for guide
+GET http://localhost:7072/api/TripPlanning/guides/1/trips

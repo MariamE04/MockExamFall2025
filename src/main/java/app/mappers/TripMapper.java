@@ -26,6 +26,15 @@ public class TripMapper {
                 guideName
         );
 
+        // Her tjekkes guide
+        if (trip.getGuide() != null) {
+            dto.setGuideId(trip.getGuide().getId());
+            dto.setGuideName(trip.getGuide().getName());
+        } else {
+            dto.setGuideId(0);       // eller null, hvis du vil
+            dto.setGuideName(null);
+        }
+
         return dto;
     }
 }

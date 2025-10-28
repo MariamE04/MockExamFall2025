@@ -33,7 +33,7 @@ public class Guide {
     private String phone;
     private int yearsOfExperience;
 
-    @OneToMany(mappedBy="guide")
+    @OneToMany(mappedBy="guide", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Trip> trips;
 
 }

@@ -49,7 +49,13 @@ public class TripController {
         trip.setLongitude(dto.getLongitude());
         trip.setPrice(dto.getPrice());
         trip.setCategory(dto.getCategory());
-        // guide kan sættes senere via PUT /trips/{tripId}/guides/{guideId}
+
+        if(dto.getGuideId() != 0){
+            Guide guide = guideDAO.getById(dto.getGuideId());
+            if(guide != null){
+                trip.setGuide(guide);
+            }
+        }
 
         Trip created = dao.create(trip);
         ctx.status(HttpStatus.CREATED).json(TripMapper.toDTO(created));
