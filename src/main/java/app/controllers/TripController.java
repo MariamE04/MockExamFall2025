@@ -13,6 +13,7 @@
     import io.javalin.http.HttpStatus;
     import jakarta.persistence.EntityManagerFactory;
 
+    import java.util.HashMap;
     import java.util.List;
     import java.util.Map;
 
@@ -29,10 +30,28 @@
                         .toList();
             }
 
-            List<TripDTO> tripDTOS = trips.stream().map(TripMapper::toDTO)
-                    .toList();
+            // Simple cache for packing items per category
+            Map<String, List<PackingItemDTO>> packingCache = new HashMap<>();
+
+            List<TripDTO> tripDTOS = trips.stream().map(trip -> {
+                TripDTO dto = TripMapper.toDTO(trip);
+
+                String cat = trip.getCategory().name().toLowerCase();
+                List<PackingItemDTO> items;
+                if (packingCache.containsKey(cat)) {
+                    items = packingCache.get(cat);
+                } else {
+                    items = PackingService.getPackingItems(cat);
+                    packingCache.put(cat, items);
+                }
+
+                dto.setPackingItems(items);
+                return dto;
+            }).toList();
+
             ctx.status(HttpStatus.OK).json(tripDTOS);
         }
+
 
         public void getById(Context ctx){
             int id = Integer.parseInt(ctx.pathParam("id"));
@@ -42,7 +61,7 @@
                 TripDTO dto = TripMapper.toDTO(trip);
 
                 // Hent packing items
-                List<PackingItemDTO> packingItems = PackingService.getPackingItems(trip.getCategory().name());
+                List<PackingItemDTO> packingItems = PackingService.getPackingItems(trip.getCategory().name().toLowerCase());
                 dto.setPackingItems(packingItems);
 
                 ctx.status(200).json(dto);
@@ -99,13 +118,27 @@
 
         }
 
-        public void deleteTrip(Context ctx){
+        public void deleteTrip(Context ctx) {
             int id = Integer.parseInt(ctx.pathParam("id"));
-            boolean delete = dao.delete(id);
+            Trip trip = dao.getById(id);
 
-            if(delete){
-                ctx.result("Trip with id " + id + " deleted");
-                ctx.status(HttpStatus.NO_CONTENT);
+            if (trip != null) {
+                // Fjern trip fra guide, hvis den har en guide
+                if (trip.getGuide() != null) {
+                    trip.getGuide().getTrips().remove(trip); // fjern fra guide
+                    trip.setGuide(null); // fjern reference til guide
+                    dao.update(trip); // opdater databasen
+                }
+
+                // Slet trip
+                boolean delete = dao.delete(id);
+                if (delete) {
+                    ctx.result("Trip with id " + id + " deleted");
+                    ctx.status(HttpStatus.NO_CONTENT);
+                } else {
+                    ctx.result("Trip could not be deleted");
+                    ctx.status(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             } else {
                 ctx.result("Trip not found");
                 ctx.status(HttpStatus.NOT_FOUND);
