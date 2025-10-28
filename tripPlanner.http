@@ -20,8 +20,13 @@ Content-Type: application/json
 
 ###
 
-### Get all trips
+### Get all trips (no filter)
 GET http://localhost:7072/api/TripPlanning/trips
+
+###
+
+### Get trips filtered by category
+GET http://localhost:7072/api/TripPlanning/trips?category=BEACH
 
 ###
 

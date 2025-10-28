@@ -19,10 +19,16 @@ public class TripController {
     private GuideDAO guideDAO = new GuideDAO(emf);
 
     public void getAllTrips(Context ctx){
+        String category = ctx.queryParam("category");
         List<Trip> trips = dao.getAll();
-        List<TripDTO> tripDTOS = trips.stream().map(TripMapper::toDTO).toList();
-        ctx.status(HttpStatus.OK);
-        ctx.json(tripDTOS);
+        if (category != null && !category.isEmpty()) {
+            trips = trips.stream().filter(t -> t.getCategory().name().equalsIgnoreCase(category))
+                    .toList();
+        }
+
+        List<TripDTO> tripDTOS = trips.stream().map(TripMapper::toDTO)
+                .toList();
+        ctx.status(HttpStatus.OK).json(tripDTOS);
     }
 
     public void getById(Context ctx){
@@ -115,6 +121,5 @@ public class TripController {
 
         ctx.status(HttpStatus.OK).json(TripMapper.toDTO(trip));
     }
-
 
 }
