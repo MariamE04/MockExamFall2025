@@ -7,15 +7,16 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 
 public class Routes {
 
-    private PoemRoutes poemRoutes = new PoemRoutes();
+    private TripRoutes tripRoutes = new TripRoutes();
+    private GuideRoutes guideRoutes = new GuideRoutes();
 
     public EndpointGroup getRoutes() {
         return () -> {
             // root endpoint
-            get("/", ctx -> ctx.result("Welcome to Dog API!"));
+            get("/", ctx -> ctx.result("Welcome to Trip Planning API!"));
 
-            // dog endpoints
-            path("/poems", poemRoutes.getRoutes());
+            path("/trips", tripRoutes.getRoutes());
+            path("/guides", guideRoutes.getRoutes());
 
         };
     }
