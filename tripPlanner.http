@@ -116,3 +116,11 @@ GET http://localhost:7072/api/TripPlanning/guides/1/trips
 
 ###
 GET http://localhost:7072/api/TripPlanning/guides/totalprice
+
+###
+
+###
+GET http://localhost:7072/api/TripPlanning/trips/1/packing/weight
+
+
+###

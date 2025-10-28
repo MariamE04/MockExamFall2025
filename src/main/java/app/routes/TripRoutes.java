@@ -20,6 +20,9 @@ public class TripRoutes {
             path("/{tripId}/guides/{guideId}", () -> {
                 put(tripController::linkGuideToTrip);
             });
+            path("/{id}/packing/weight", () ->{
+                get(tripController::getPackingWeight);
+            });
         };
     }
 }

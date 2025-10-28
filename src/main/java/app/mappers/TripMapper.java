@@ -2,6 +2,7 @@ package app.mappers;
 
 import app.dtos.TripDTO;
 import app.entities.Trip;
+import app.services.PackingService;
 
 public class TripMapper {
     public static TripDTO toDTO(Trip trip){
@@ -13,27 +14,18 @@ public class TripMapper {
             guideName = trip.getGuide().getName();
         }
 
-        TripDTO dto = new TripDTO(
-                trip.getId(),
-                trip.getName(),
-                trip.getStartTrip(),
-                trip.getEndTrip(),
-                trip.getLatitude(),
-                trip.getLongitude(),
-                trip.getPrice(),
-                trip.getCategory(),
-                guideId,
-                guideName
-        );
-
-        // Her tjekkes guide
-        if (trip.getGuide() != null) {
-            dto.setGuideId(trip.getGuide().getId());
-            dto.setGuideName(trip.getGuide().getName());
-        } else {
-            dto.setGuideId(0);       // eller null, hvis du vil
-            dto.setGuideName(null);
-        }
+        TripDTO dto = new TripDTO();
+        dto.setId(trip.getId());
+        dto.setName(trip.getName());
+        dto.setStartTrip(trip.getStartTrip());
+        dto.setEndTrip(trip.getEndTrip());
+        dto.setLatitude(trip.getLatitude());
+        dto.setLongitude(trip.getLongitude());
+        dto.setPrice(trip.getPrice());
+        dto.setCategory(trip.getCategory());
+        dto.setGuideId(guideId);
+        dto.setGuideName(guideName);
+        dto.setPackingItems(PackingService.getPackingItems(trip.getCategory().name().toLowerCase()));
 
         return dto;
     }
