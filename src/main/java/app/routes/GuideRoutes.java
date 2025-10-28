@@ -15,6 +15,7 @@ public class GuideRoutes {
         return () -> {
             get(guideController::getAllGuides);
             post(guideController::createGuide);
+            get("/totalprice", guideController::getTotalTripPrice);
             path("/{id}", () -> {
                get(guideController::getGuideById);
                put(guideController::updateGuide);

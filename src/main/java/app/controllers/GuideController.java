@@ -12,6 +12,8 @@ import io.javalin.http.HttpStatus;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GuideController {
     private static final EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
@@ -97,6 +99,18 @@ public class GuideController {
 
         List<Trip> trips = guide.getTrips();
         ctx.status(HttpStatus.OK).json(trips.stream().map(trip -> trip.getName()).toList());
+    }
+
+    public void getTotalTripPrice(Context ctx) {
+        List<Trip> trips = tripDAO.getAll();
+
+        Map<Integer, Double> totalPricePerGuide = trips.stream()
+                .filter((t -> t.getGuide() != null))  // ignorer trips uden guide
+                .collect(Collectors.groupingBy(t -> t.getGuide().getId(),
+                        Collectors.summingDouble(Trip::getPrice)
+                ));
+
+        ctx.json(totalPricePerGuide);
     }
 
 }
