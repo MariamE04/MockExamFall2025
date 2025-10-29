@@ -1,5 +1,6 @@
 package app.routes;
 
+import Security.rest.SecurtiyRoutes;
 import io.javalin.apibuilder.EndpointGroup;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
@@ -9,6 +10,7 @@ public class Routes {
 
     private TripRoutes tripRoutes = new TripRoutes();
     private GuideRoutes guideRoutes = new GuideRoutes();
+    private SecurtiyRoutes securtiyRoutes = new SecurtiyRoutes();
 
     public EndpointGroup getRoutes() {
         return () -> {
@@ -17,6 +19,8 @@ public class Routes {
 
             path("/trips", tripRoutes.getRoutes());
             path("/guides", guideRoutes.getRoutes());
+            path("/auth", securtiyRoutes.getOpenRoutes());
+            path("/protected", securtiyRoutes.getSecuredRoutes());
 
         };
     }

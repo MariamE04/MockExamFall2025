@@ -1,5 +1,7 @@
 package app.config;
 
+import Security.entities.Role;
+import Security.entities.User;
 import app.entities.Guide;
 import app.entities.Trip;
 import app.utils.Utils;
@@ -43,6 +45,8 @@ public class HibernateConfig {
     private static void getAnnotationConfiguration(Configuration configuration) {
          configuration.addAnnotatedClass(Trip.class);
          configuration.addAnnotatedClass(Guide.class);
+         configuration.addAnnotatedClass(User.class);
+         configuration.addAnnotatedClass(Role.class);
     }
 
     private static EntityManagerFactory createEMF(boolean forTest) {
@@ -74,6 +78,10 @@ public class HibernateConfig {
         }
     }
 
+    private static String getDBName() {
+        return Utils.getPropertyValue("db.name", "from-pom.properties");
+    }
+
     private static Properties setBaseProperties(Properties props) {
         props.put("hibernate.connection.driver_class", "org.postgresql.Driver");
         props.put("hibernate.hbm2ddl.auto", "create");  // set to "update" when in production
@@ -92,13 +100,24 @@ public class HibernateConfig {
         return props;
     }
 
-    private static Properties setDevProperties(Properties props) {
-        String DBName = Utils.getPropertyValue("DB_NAME", "config.properties");
-        String DB_USERNAME = Utils.getPropertyValue("DB_USERNAME", "config.properties");
-        String DB_PASSWORD = Utils.getPropertyValue("DB_PASSWORD", "config.properties");
-        props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/" + DBName);
-        props.put("hibernate.connection.username", DB_USERNAME);
-        props.put("hibernate.connection.password", DB_PASSWORD);
+    private static Properties setDevProperties(Properties props){
+        String DBName = getDBName();
+
+        // Hvis environment variable CONNECTION_STR ikke er sat, brug db-container navnet
+        String connectionStr = System.getenv("CONNECTION_STR");
+        if (connectionStr == null) connectionStr = "jdbc:postgresql://localhost:5432/";
+
+
+        String username = System.getenv("DB_USERNAME");
+        if (username == null) username = "postgres";
+
+        String password = System.getenv("DB_PASSWORD");
+        if (password == null) password = "postgres";
+
+        props.put("hibernate.connection.url", connectionStr + DBName);
+        props.put("hibernate.connection.username", username);
+        props.put("hibernate.connection.password", password);
+
         return props;
     }
 

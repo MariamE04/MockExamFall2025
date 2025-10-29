@@ -6,6 +6,7 @@ GET http://localhost:7072/api/TripPlanning
 ### create trip
 POST http://localhost:7072/api/TripPlanning/trips
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIk1hcmlhbSBFbG1pclwiIiwic3ViIjoiYWRtaW4iLCJleHAiOjE3NjE3NjAwMDIsInJvbGVzIjoiQURNSU4iLCJ1c2VybmFtZSI6ImFkbWluIn0.LkwPydBsyMI5sJF69oTvSyOR2T1iNCvvoRkyeoty_1w
 
 {
   "name": "Sunny Beach Trip",
@@ -37,6 +38,8 @@ GET http://localhost:7072/api/TripPlanning/trips/1
 
 ### delete trip by id
 DELETE http://localhost:7072/api/TripPlanning/trips/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIk1hcmlhbSBFbG1pclwiIiwic3ViIjoiYWRtaW4iLCJleHAiOjE3NjE3NjAwMDIsInJvbGVzIjoiQURNSU4iLCJ1c2VybmFtZSI6ImFkbWluIn0.LkwPydBsyMI5sJF69oTvSyOR2T1iNCvvoRkyeoty_1w
+
 
 ###
 
@@ -47,6 +50,7 @@ GET http://localhost:7072/api/TripPlanning/trips/2
 ### Update trip by ID
 PUT http://localhost:7072/api/TripPlanning/trips/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIk1hcmlhbSBFbG1pclwiIiwic3ViIjoiYWRtaW4iLCJleHAiOjE3NjE3NjAwMDIsInJvbGVzIjoiQURNSU4iLCJ1c2VybmFtZSI6ImFkbWluIn0.LkwPydBsyMI5sJF69oTvSyOR2T1iNCvvoRkyeoty_1w
 
 {
   "name": "test",
@@ -66,6 +70,8 @@ Content-Type: application/json
 ### create a guide
 POST http://localhost:7072/api/TripPlanning/guides
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIk1hcmlhbSBFbG1pclwiIiwic3ViIjoiYWRtaW4iLCJleHAiOjE3NjE3NjAwMDIsInJvbGVzIjoiQURNSU4iLCJ1c2VybmFtZSI6ImFkbWluIn0.LkwPydBsyMI5sJF69oTvSyOR2T1iNCvvoRkyeoty_1w
+
 
 {
   "name": "Mariam Elmir",
@@ -88,6 +94,8 @@ GET http://localhost:7072/api/TripPlanning/guides/1
 
 ### delete guide by id
 DELETE http://localhost:7072/api/TripPlanning/guides/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIk1hcmlhbSBFbG1pclwiIiwic3ViIjoiYWRtaW4iLCJleHAiOjE3NjE3NjAwMDIsInJvbGVzIjoiQURNSU4iLCJ1c2VybmFtZSI6ImFkbWluIn0.LkwPydBsyMI5sJF69oTvSyOR2T1iNCvvoRkyeoty_1w
+
 
 ###
 
@@ -99,6 +107,7 @@ GET http://localhost:7072/api/TripPlanning/guides/2
 ###Update guide by ID
 PUT http://localhost:7072/api/TripPlanning/guides/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIk1hcmlhbSBFbG1pclwiIiwic3ViIjoiYWRtaW4iLCJleHAiOjE3NjE3NjAwMDIsInJvbGVzIjoiQURNSU4iLCJ1c2VybmFtZSI6ImFkbWluIn0.LkwPydBsyMI5sJF69oTvSyOR2T1iNCvvoRkyeoty_1w
 
 {
   "name": "Anna K. Jensen",
@@ -124,3 +133,12 @@ GET http://localhost:7072/api/TripPlanning/trips/1/packing/weight
 
 
 ###
+
+### Security
+POST http://localhost:7072/api/TripPlanning/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}

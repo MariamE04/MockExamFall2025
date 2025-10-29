@@ -1,5 +1,7 @@
 package app;
 
+import Security.daos.SecurityDAO;
+import Security.entities.User;
 import app.config.HibernateConfig;
 import app.daos.GuideDAO;
 import app.daos.TripDAO;
@@ -14,6 +16,18 @@ import java.time.LocalDateTime;
 public class Populator {
 
     public static void populate(EntityManagerFactory emf) {
+
+      SecurityDAO securityDAO = new SecurityDAO(emf);
+        try {
+            // opret admin-bruger
+            User admin = securityDAO.createUser("admin", "admin123");
+            securityDAO.createRole("ADMIN");
+            securityDAO.addUserRole(admin.getUsername(), "ADMIN");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         GuideDAO guideDAO = new GuideDAO(emf);
         TripDAO tripDAO = new TripDAO(emf);
 
