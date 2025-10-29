@@ -3,6 +3,7 @@ package app.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -34,6 +35,7 @@ public class Guide {
     private int yearsOfExperience;
 
     @OneToMany(mappedBy="guide", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Trip> trips;
+    @Builder.Default
+    private List<Trip> trips = new ArrayList<>();
 
 }
